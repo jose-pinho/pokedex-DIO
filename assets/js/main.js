@@ -1,6 +1,3 @@
-const offset = 0;
-const limit = 10;
-const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
 
 // fetch(url)
 // Converte o responsebody de ReadableStream para json
@@ -21,7 +18,7 @@ const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
 
 function convertPokemonToLi(pokemon){
     return`
-     <li class="pokemon">
+        <li class="pokemon">
             <span class="number">#001</span>
             <span class="name">${pokemon.name}</span>
             <div class="detail">
@@ -37,20 +34,6 @@ function convertPokemonToLi(pokemon){
 
 const pokemonList = document.getElementById('pokemonList');
 
-fetch(url)
-    .then((response )=> response.json())
-    //Acessei o objeto "results" dentro do obj JSON
-    .then((jsonBody)=> jsonBody.results)
-    //Quando minha function só tem uma linha no corpo eu não preciso escreve-lo
-    //Retorna a promisse do then anterior
-    .then((pokemons) => {
-        for(let i = 0; i < pokemons.length; i++){
-            const pokemon = pokemons[i];
-           pokemonList.innerHTML += convertPokemonToLi(pokemon);
-        
-            
-        }
-        
-    })
-        .catch((erro) => console.error(erro))
-    
+pokeAPI.getPokemons().then((pokemons = []) => {
+pokemonList.innerHTML+= pokemons.map(convertPokemonToLi).join('');
+});    
